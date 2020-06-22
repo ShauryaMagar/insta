@@ -1,0 +1,126 @@
+<%- include('partials/header') %>
+<!-- 
+Heading -->
+<div class="container-fluid dash-head">
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #fecea8;">
+    <a class="navbar-brand logo" href="/dashboard">NoStoryGram</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+       
+        <a class="nav-item nav-link active" href="#">Home<span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link" href="/profile">Profile</a>
+        <a class="nav-item nav-link" href="/upload">Upload</a>
+        <a class="nav-item nav-link" href="/logout" role="button">Logout</a>
+          
+      
+        
+       
+      </div>
+    </div>
+  </nav>
+</div>
+<hr>
+
+<div class="feed">
+    <div class="feed-name"><img src="images/jordan.png" class="feed-dp" alt="">  Jordan Fish</div><hr>
+    <div class="feed-photo">
+        <img src="images/olobersykes.png" class="feed-photo" alt="">
+    </div><br>
+    <div class="interaction">
+      <form action="">
+        <input id="like" class="interact-button" onclick="myfunction()" type="image" src="images/heart.png"> 
+        <script>
+          function myFunction() {
+            document.getElementById("like").style.color = "red";
+          }
+          </script>
+        
+        <input class="interact-button" type="image" src="images/comment.png">
+      </form>
+     
+     
+    </div> 
+    <div>
+
+    </div>
+
+
+
+
+</div>
+<br><br>
+<div class="feed">
+  <div class="feed-name"><img src="images/dani-pro.png" class="feed-dp" alt="">  Danielle Van De Donk</div><hr>
+  <div class="feed-photo">
+      <img src="images/dani.png" class="feed-photo" alt="">
+  </div><br>
+  <div class="interaction">
+    <form action="">
+      <input id="like" class="interact-button" onclick="myfunction()" type="image" src="images/heart.png"> 
+      <script>
+        function myFunction() {
+          document.getElementById("like").style.color = "red";
+        }
+        </script>
+      
+      <input class="interact-button" type="image" src="images/comment.png">
+    </form>
+   
+   
+  </div> 
+  <div>
+
+  </div>
+
+
+
+
+</div>
+<br><br>
+<div class="feed">
+  <div class="feed-name"><img src="images/lisa-pro.png" class="feed-dp" alt="">  Lisa Vicari</div><hr>
+  <div class="feed-photo">
+      <img src="images/lisa.png" class="feed-photo" alt="">
+  </div><br>
+  <div class="interaction">
+    <form action="">
+      <input id="like" class="interact-button" onclick="myfunction()" type="image" src="images/heart.png"> 
+      <script>
+        function myFunction() {
+          document.getElementById("like").style.color = "red";
+        }
+        </script>
+      
+      <input class="interact-button" type="image" src="images/comment.png">
+    </form>
+   
+   
+  </div> 
+  <div>
+
+  </div>
+
+
+
+
+</div>
+<br> <br>
+
+
+
+
+
+
+
+
+
+
+
+
+     
+
+
+<%-include('partials/footer') %>

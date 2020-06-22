@@ -1,0 +1,38 @@
+<%- include('partials/header') %>
+<section id="signup">
+  <div class="row">
+
+     <div class="sign-left col-lg-6">
+       <img class="sign-image" src="images/geo-uc-iUgYLk7R59I-unsplash.jpg" alt="">
+     </div>
+     <div class="sign-right col-lg-6">
+
+       <h1 class="sign-heading logo"><strong>NoStoryGram</strong></h1> <br><br>
+
+       <div class="signup-container container-fluid">
+           <div class="sign-text">
+             <h3 class="sign-text">Sign In</h3>
+             <form action="/login" method="post">
+              <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name="username" required autofocus><br>
+              <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required><br>
+              <div class="signin-button">
+                <button type="submit" class="btn btn-outline-light">Submit</button>
+              </div>
+            </form>
+             
+             <div class="reg">
+               <form action="/register" method="get">
+                <h3 class="sign-text">Don't have an account?</h3>
+                <button type="submit" class="btn btn-outline-light">Register</button>
+ </form>
+              
+             </div>
+
+           </div>
+       </div>
+
+     </div>
+</section>
+
+
+<%- include('partials/footer') %>
