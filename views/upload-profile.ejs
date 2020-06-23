@@ -1,0 +1,32 @@
+<%- include('partials/header') %>
+
+<div class="container-fluid upload-pro">
+    <div><h2>Add your Profile Photo!</h2></div><br>
+    <div>
+        <form action="/upload-profile" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" /><br><br>
+            <label for="exampleFormControlTextarea1"> Add Caption! </label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" name="bioinput" rows="3"></textarea><br>
+            <button class="btn btn-outline-dark" type="submit">Upload!</button>
+        </form>
+        
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%- include('partials/footer') %>

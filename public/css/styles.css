@@ -79,10 +79,12 @@ hr{
   width: 2rem;
 }
 .bio{
-  height: 20rem;
+  height: 19rem;
+  width: 60rem;
   
   background-color: wheat;
-  padding: 1rem 4rem 0 4rem;
+  padding: 1rem 3rem 1rem 3rem;
+  border-radius: 25px;
 }
 .upload-group{
    background-color: wheat;
@@ -90,4 +92,36 @@ hr{
    text-align: center;
    width: 30rem;
    height: 20rem;
+}
+
+.upload-pro{
+  background-color: wheat;
+  width: 30rem;
+   height: 22rem;
+  margin: 12rem auto auto auto;
+  padding: 1rem 1rem;
+  text-align: center;
+}
+
+.dp{
+   border-radius: 50%;
+   height: 17rem;
+   width: 17rem;
+   /* margin-right: 4rem; */
+   
+
+}
+.dp-row{
+  text-align: center;
+}
+.pro-name{
+  margin-left: 1.5rem;
+  margin-top: 4rem;
+  margin-bottom: auto;
+  font-weight: bolder;
+}
+
+.pro-bio{
+  margin-left: 1.5rem;
+  margin-top: 2rem;
 }

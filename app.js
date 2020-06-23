@@ -23,6 +23,18 @@ app.use(session({
   saveUninitialized: false,
 }));
 
+var Storage = multer.diskStorage({
+  destination: "./public/uploads/",
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
+  }
+});
+
+var upload = multer({
+  storage: Storage,
+
+}).single("file");
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -45,7 +57,9 @@ const userSchema = new mongoose.Schema ({
       name: String,
       username: String,
       password: String,
-      posts: [{postSchema}]
+      posts: [{postSchema}],
+      profileimage: String,
+      bio:String,
 });
 
 
@@ -64,17 +78,7 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-var Storage = multer.diskStorage({
-   destination:"./public/uploads/",
-   filename:(req,file,cb)=>{
-     cb(null,file.fieldname+"_"+Date.now()+path.extname(file.originalname));
-   }
-});
 
-var upload = multer({
-  storage: Storage,
-
-}).single("file");
 
 app.get("/login", function(req,res){
   res.render("signup");
@@ -82,11 +86,19 @@ app.get("/login", function(req,res){
 
 app.get("/profile", function(req,res){
   if (req.isAuthenticated()) {
-    res.render("profile");
+    const dp = req.user.profileimage;
+    const bio= req.user.bio;
+    const name= req.user.name;
+    res.render("profile", {
+      dp: dp,
+      bio:bio,
+      name:name,
+
+    });
   } else {
     res.redirect("/login");
   }
-})
+});
 
 app.get("/upload", function(req,res){
   if(req.isAuthenticated){
@@ -96,13 +108,14 @@ app.get("/upload", function(req,res){
   }
 });
 
-app.post("/upload",upload, function(req,res){
-  console.log(res);
-})
+// app.post("/upload",upload, function(req,res){
+  
+// })
 
 app.get("/dashboard",function(req,res){
       if(req.isAuthenticated()){
         res.render("dashboard");
+        console.log(req.user.id);
       } else{
         res.redirect("/login");
       }
@@ -115,6 +128,36 @@ app.get("/register", function(req,res){
 
 
 
+
+
+app.post("/upload-profile",upload,function(req,res,next){
+  if(req.isAuthenticated()){
+    const bio = req.body.bioinput;
+    const profile = req.file.filename;
+    User.findById(req.user.id, function (err, foundUser) {
+      if (err) {
+        console.log(err);
+      } else {
+        if (foundUser) {
+          foundUser.bio = bio;
+          foundUser.profileimage = profile;
+          foundUser.save(function () {
+            res.redirect("/profile");
+          })
+
+        }
+      }
+    });
+  }else{
+    res.redirect("/login");
+  }
+   
+});
+
+
+
+
+
 app.post("/register", function(req,res){
   User.register({username: req.body.username, name: req.body.name}, req.body.password, function(err, user){
     if(err){
@@ -122,11 +165,23 @@ app.post("/register", function(req,res){
       res.redirect("/register");
     } else {
       passport.authenticate("local")(req, res, function(){
-        res.redirect("/dashboard");
+        res.redirect("/upload-profile");
       });
     }
   });
 });
+
+
+
+
+
+
+app.get("/upload-profile",function(req,res){
+  res.render("upload-profile");
+});
+
+
+
 
 
 
