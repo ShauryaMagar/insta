@@ -25,13 +25,14 @@
 <div class="container-fluid upload-group">
     <form action="/upload" enctype="multipart/form-data" method="POST">
         <div class="form-group">
-            <label for="exampleFormControlFile1">Upload Photo</label>
-            <input type="file" class="form-control-file" id="exampleFormControlFile1" name="file"><br>
-            <label for="exampleFormControlTextarea1"> Add Caption! </label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" name="caption" rows="3"></textarea>
-        </div>
+            <form action="/upload-profile" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" /><br><br>
+                <label for="exampleFormControlTextarea1"> Add Bio! </label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" name="caption" rows="3"></textarea><br>
+                <button class="btn btn-outline-dark" type="submit">Upload!</button>
+            </form>
     </form>
-    <button class="btn btn-outline-dark" type="submit">Upload!</button>
+    </div>
 </div>
 
 
