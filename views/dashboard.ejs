@@ -23,79 +23,40 @@ Heading -->
   </nav>
 </div>
 <hr>
-
+<% posts.forEach(function(post){  %>
 <div class="feed">
-    <div class="feed-name"><img src="images/jordan.png" class="feed-dp" alt="">  Jordan Fish</div><hr>
-    <div class="feed-photo">
-        <img src="images/olobersykes.png" class="feed-photo img-fluid" alt="">
-    </div><br>
-    <div class="interaction">
-      <form action="">
-        <input id="like" class="interact-button" onclick="myfunction()" type="image" src="images/heart.png"> 
-        
-        
-        <input class="interact-button" type="image" src="images/comment.png">
-      </form>
-     
-     
-    </div> 
-    <div>
-
+  
+    <div class="feed-name"><img src="./uploads/<%=post.dashDP %>" class="feed-dp" alt=""> <%= post.dashName %></div>
+    <hr>
+    <div class="feed-photo ">
+      <img src="./uploads/<%= post.img %>" class="feed-photo" alt="">
+      <div class="middle">
+        <div class="text">John Doe</div>
+      </div>
     </div>
-
-
-
-
-</div>
-<br><br>
-<div class="feed">
-  <div class="feed-name"><img src="images/dani-pro.png" class="feed-dp" alt="">  Danielle Van De Donk</div><hr>
-  <div class="feed-photo">
-      <img src="images/dani.png" class="feed-photo" alt="">
-  </div><br>
-  <div class="interaction">
-    <form action="">
-      <input id="like" class="interact-button" onclick="myfunction()" type="image" src="images/heart.png"> 
+    <div class="container caption-container">
+      <i class="far fa-envelope-open"></i> <em class="caption-text">    <%= post.caption %></em> 
+    </div> 
+    <div class="conatiner interaction">
       
-      
-      <input class="interact-button" type="image" src="images/comment.png">
-    </form>
-   
-   
-  </div> 
-  <div>
-
-  </div>
-
-
-
-
-</div>
-<br><br>
-<div class="feed">
-  <div class="feed-name"><img src="images/lisa-pro.png" class="feed-dp" alt="">  Lisa Vicari</div><hr>
-  <div class="feed-photo">
-      <img src="images/lisa.png" class="feed-photo" alt="">
-  </div><br>
-  <div class="interaction">
-    <form action="">
-      <input id="like" class="interact-button" onclick="myfunction()" type="image" src="images/heart.png"> 
     
-      
-      <input class="interact-button" type="image" src="images/comment.png">
-    </form>
-   
-   
-  </div> 
-  <div>
-
-  </div>
+    
+    </div>
+    <div>
+    
+    </div>
+    
+ 
+  
 
 
 
 
 </div>
-<br> <br>
+<br><br>
+<% })  %>
+
+
 <script>
   function myFunction() {
     document.getElementById("like").style.backgroundColor = "red";

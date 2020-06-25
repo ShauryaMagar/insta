@@ -42,32 +42,13 @@ mongoose.connect("mongodb://localhost:27017/instaDB", {useNewUrlParser: true,use
 mongoose.set("useCreateIndex",true);
 
 
-const commentsSchema = new mongoose.Schema({
-  post: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
-  userComment: String,
-  content: String,
-});
-const Comment = new mongoose.model("Comment", commentsSchema);
-
-const postSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  caption: String,
-  img: String,
-  likes: Number,
-  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
-});
-
-const Post = new mongoose.model("Post",postSchema);
-
-
-const userSchema = new mongoose.Schema ({
-  _id: mongoose.Schema.Types.ObjectId,
-      name: String,
-      username: String,
-      password: String,
+const userSchema = new mongoose.Schema({
+  name: String,
+  username: String,
+  password: String,
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-      profileimage: String,
-      bio:String,
+  profileimage: String,
+  bio: String,
 });
 
 
@@ -78,7 +59,38 @@ const userSchema = new mongoose.Schema ({
 
 userSchema.plugin(passportLocalMongoose);
 
-const User = new mongoose.model("User",userSchema);
+const User = new mongoose.model("User", userSchema);
+
+
+
+
+const postSchema = new mongoose.Schema({
+  caption: String,
+  img: String,
+  likes: Number,
+  dashName:String,
+  dashDP:String,
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  
+});
+
+
+
+const Post = new mongoose.model("Post", postSchema);
+
+
+
+
+const commentsSchema = new mongoose.Schema({
+  postComment: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
+  userComment: String,
+  content: String,
+});
+const Comment = new mongoose.model("Comment", commentsSchema);
+
+
+
 
 
 passport.use(User.createStrategy());
@@ -97,16 +109,17 @@ app.get("/profile", function(req,res){
     const dp = req.user.profileimage;
     const bio= req.user.bio;
     const name= req.user.name;
-    
-    User.findOne({_id: req.user.id}).populate("userposts");
-    const userPosts = req.user.posts;
-    console.log(req.user.posts);
-    res.render(("profile"), {
+    User.findOne({_id:req.user.id}).populate("posts").exec((err,posts)=> {
+      res.render(("profile"), {
         dp: dp,
-        bio:bio,
+        bio: bio,
         name: name,
-      userPosts: userPosts,
+        userPosts: posts.posts,
+      });
     });
+    
+   
+   
 } else {
     res.redirect("/login");
   }
@@ -127,7 +140,9 @@ app.post("/upload",upload, function(req,res,next){
     const post = new Post({
       caption: req.body.caption,
       img: req.file.filename,
-      user: req.user.id,
+      author: req.user.id,
+      dashName:req.user.name,
+      dashDP: req.user.profileimage,
     });
     post.save();
     User.findById(req.user.id, function (err, foundUser) {
@@ -152,7 +167,15 @@ app.post("/upload",upload, function(req,res,next){
 
 app.get("/dashboard",function(req,res){
       if(req.isAuthenticated()){
-        res.render("dashboard");
+        Post.find({},function(err,posts){
+          res.render("dashboard",{
+              posts:posts,
+          });
+        })
+
+          
+          
+        
       } else{
         res.redirect("/login");
       }
@@ -196,7 +219,7 @@ app.post("/upload-profile",upload,function(req,res,next){
 
 
 app.post("/register", function(req,res){
-  User.register({ username: req.body.username, name: req.body.name, _id: new mongoose.Types.ObjectId()}, req.body.password, function(err, user){
+  User.register({ username: req.body.username, name: req.body.name}, req.body.password, function(err, user){
     if(err){
       console.log(err);
       res.redirect("/register");
