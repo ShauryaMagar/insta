@@ -42,12 +42,9 @@
     <div class="row column-area">
         
     
-        <%  userPosts.forEach(function(userPost){ %>
+        <%  userPosts.slice().reverse().forEach(function(userPost){ %>
             <div class="col-4 column post-tile">
             <img src="./uploads/<%=userPost.img%>" class="profile-photo" alt="">
-            <div class="middle">
-                <div class="text">Click</div>
-            </div>
             </div>
         
         <% }) %>

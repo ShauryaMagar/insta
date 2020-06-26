@@ -137,6 +137,7 @@ app.get("/upload", function(req,res){
 
 app.post("/upload",upload, function(req,res,next){
   if (req.isAuthenticated()){
+   
     const post = new Post({
       caption: req.body.caption,
       img: req.file.filename,

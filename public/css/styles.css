@@ -67,12 +67,7 @@ hr{
   
   border-color: black;
 }
-.feed-photo{
-  width: 24rem;
-  height: 24rem;
-  margin-left: auto;
-  margin-right: auto;
-}
+
 .interact-button{
   height: 2rem;
   width: 2rem;
@@ -161,25 +156,10 @@ hr{
   font-size: 16px;
   padding: 16px 32px;
 }
-.post-tile :hover .image {
-  opacity: 0.3;
-}
-
-.post-tile:hover .middle {
-  opacity: 1;
-}
 
 
-.middle {
-  transition: .5s ease;
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  text-align: center;
-}
+
+
 .caption-text{
   font-size: 1rem;
   font-weight: bold;
@@ -191,17 +171,21 @@ hr{
 .interaction{
   margin-top: 1rem;
 }
-
-.feed-photo:hover .feed-photo {
-  opacity: 0.3;
+.feed-photo{
+  text-align: center;
 }
 
-.feed-photo:hover .middle {
-  opacity: 1;
+.feed-photo-img{
+   width: 24rem;
+  height: 24rem;
+  margin-left: auto;
+  margin-right: auto;
 }
-.image {
-  opacity: 1;
-  display: block;
-  transition: .5s ease;
-  backface-visibility: hidden;
+.feed-photo-img:hover {
+    webkit-filter: blur(4px); /* Chrome, Safari, Opera */
+    filter: blur(3px);
+}
+.profile-photo:hover {
+    webkit-filter: blur(4px); /* Chrome, Safari, Opera */
+    filter: blur(3px);
 }

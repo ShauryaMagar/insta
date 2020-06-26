@@ -23,28 +23,17 @@ Heading -->
   </nav>
 </div>
 <hr>
-<% posts.forEach(function(post){  %>
+<% posts.slice().reverse().forEach(function(post) { %>
 <div class="feed">
   
     <div class="feed-name"><img src="./uploads/<%=post.dashDP %>" class="feed-dp" alt=""> <%= post.dashName %></div>
     <hr>
     <div class="feed-photo ">
-      <img src="./uploads/<%= post.img %>" class="feed-photo" alt="">
-      <div class="middle">
-        <div class="text">John Doe</div>
-      </div>
+      <img src="./uploads/<%= post.img %>" class="feed-photo-img" alt="">
     </div>
     <div class="container caption-container">
       <i class="far fa-envelope-open"></i> <em class="caption-text">    <%= post.caption %></em> 
     </div> 
-    <div class="conatiner interaction">
-      
-    
-    
-    </div>
-    <div>
-    
-    </div>
     
  
   
