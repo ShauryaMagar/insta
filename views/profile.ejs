@@ -44,7 +44,8 @@
     
         <%  userPosts.slice().reverse().forEach(function(userPost){ %>
             <div class="col-4 column post-tile">
-            <img src="./uploads/<%=userPost.img%>" class="profile-photo" alt="">
+                <a href="/posts/<%=userPost._id%>"><img src="./uploads/<%=userPost.img%>" class="profile-photo" alt=""></a>
+            
             </div>
         
         <% }) %>

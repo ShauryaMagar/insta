@@ -1,0 +1,105 @@
+<%- include('partials/header') %>
+
+<div class="container-fluid dash-head">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #fecea8;">
+        <a class="navbar-brand logo" href="/dashboard">NoStoryGram</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+
+                <a class="nav-item nav-link " href="/dashboard">Home<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/profile">Profile</a>
+                <a class="nav-item nav-link" href="/upload">Upload</a>
+                <a class="nav-item nav-link" href="/logout" role="button">Logout</a>
+
+
+
+
+            </div>
+        </div>
+    </nav>
+</div>
+<hr>
+<div class="container-fluid individual-post">
+    <div class="row">
+        <div class="col-7  individual-post-photo-container container">
+            <img src="../uploads/<%=photo%>" class="individual-post-photo" alt="">
+        </div>
+        <div class="col-5 individual-post-interaction">
+            <div class="individual-post-userinfo">
+                <img src="../uploads/<%=dp%>" class="feed-dp" alt="">    <%=name %>
+                   
+            </div>
+            <hr>
+            <div class="individual-post-caption">
+                <i class="far fa-envelope-open"></i> <em class="caption-text"> <%=caption %></em>
+
+            </div><hr>
+            <div class="comment-section">
+            
+            </div>
+            <div class="like-comment">
+                <div class="icon-divide">
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="far fa-heart fa-2x"></i>
+                        </div>
+                          <div class="col-2">
+                        <a href="#comment-box-area"><i class="far fa-comment fa-2x"></i></a>
+                        </div>
+                    
+                        
+                    </div>
+
+                    
+
+                </div>
+               
+                <div class="comment-input">
+                    <form>
+                        <div class="form-group form-check-inline">
+                            <div style="margin-right: 0.5rem;">
+                                <input type="text" class="form-control comment-box" id="comment-box-area" placeholder="Comment">
+                            </div>
+                            
+                            <button type="button" class="btn btn-outline-dark btn-sm">Comment!</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        
+        </div>
+    </div>
+   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%-include('partials/footer') %>

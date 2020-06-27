@@ -27,10 +27,10 @@ Heading -->
 <div class="feed">
   
     <div class="feed-name"><img src="./uploads/<%=post.dashDP %>" class="feed-dp" alt=""> <%= post.dashName %></div>
-    <hr>
+    <hr><a href="/posts/<%=post._id%>">
     <div class="feed-photo ">
       <img src="./uploads/<%= post.img %>" class="feed-photo-img" alt="">
-    </div>
+    </div></a>
     <div class="container caption-container">
       <i class="far fa-envelope-open"></i> <em class="caption-text">    <%= post.caption %></em> 
     </div> 

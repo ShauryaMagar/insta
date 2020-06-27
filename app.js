@@ -264,6 +264,22 @@ app.post("/login",function(req,res){
 });
 
 
+
+app.get("/posts/:postId", function (req, res) {
+  
+  const requestedPostId = req.params.postId;
+  Post.findOne({ _id: requestedPostId }, function (err, foundPost) {
+    res.render("individualpost", {
+      name:foundPost.dashName,
+      dp:foundPost.dashDP,
+      photo:foundPost.img,
+      caption:foundPost.caption,
+    });
+  });
+ 
+});
+
+
 app.get("/logout",function(req,res){
   req.logout();
   res.redirect("/login");

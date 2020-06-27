@@ -182,10 +182,49 @@ hr{
   margin-right: auto;
 }
 .feed-photo-img:hover {
-    webkit-filter: blur(4px); /* Chrome, Safari, Opera */
     filter: blur(3px);
 }
 .profile-photo:hover {
-    webkit-filter: blur(4px); /* Chrome, Safari, Opera */
+    
     filter: blur(3px);
+}
+
+.individual-post{
+  height: 35rem;
+  width: 60rem;
+  background-color: wheat;
+
+}
+
+.individual-post-photo{
+  height: 32rem;
+  width:32rem;
+}
+.individual-post-photo-container{
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.5rem;
+}
+
+.individual-post-interaction{
+  padding: 1.5rem;
+}
+
+.form-control{
+  background-color:#fcfefe;
+}
+.comment-box{
+  border-radius: 25px;
+}
+.comment-section{
+  height:17.5rem ;
+  width: auto;
+  padding: 0.2rem;
+}
+.icon-divide{
+  padding: 0.6rem;
+}
+.fa-comment{
+  color: #2a363b;
 }
