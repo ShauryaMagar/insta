@@ -218,7 +218,11 @@ hr{
   border-radius: 25px;
 }
 .comment-section{
-  height:17.5rem ;
+  max-height: 16rem;
+  min-height: 3rem;
+  height: auto;
+  overflow: auto;
+  background-color: black;
   width: auto;
   padding: 0.2rem;
 }
@@ -227,4 +231,12 @@ hr{
 }
 .fa-comment{
   color: #2a363b;
+}
+.individual-post-caption{
+  overflow: auto;
+  height: auto;
+  max-height: 3rem;
+}
+.like-comment{
+  position: absolute;
 }
