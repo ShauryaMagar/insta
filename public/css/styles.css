@@ -163,6 +163,7 @@ hr{
 .caption-text{
   font-size: 1rem;
   font-weight: bold;
+  line-height: 1.4;
 }
 .caption-container{
   text-align: left;
@@ -219,12 +220,13 @@ hr{
 }
 .comment-section{
   max-height: 16rem;
-  min-height: 3rem;
+  min-height: 7.5rem;
   height: auto;
   overflow: auto;
-  background-color: black;
   width: auto;
   padding: 0.2rem;
+  overflow-wrap: normal;
+  overflow-x: hidden; 
 }
 .icon-divide{
   padding: 0.6rem;
@@ -235,8 +237,13 @@ hr{
 .individual-post-caption{
   overflow: auto;
   height: auto;
-  max-height: 3rem;
+  max-height: 12rem;
 }
-.like-comment{
-  position: absolute;
+.commentDP{
+  border-radius: 50%;
+  height:1.6rem;
+  width: 1.6rem;
+}
+.comment-individual{
+  padding: 2px;
 }

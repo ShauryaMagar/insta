@@ -39,8 +39,28 @@
 
             </div><hr>
             <div class="comment-section">
-            
+                <div class="container">
+                    <div class="row">
+            <% comments.forEach(function(comment){ %>
+                
+                    
+                        <div class="col-1">
+                    
+                            <img src="../uploads/<%=comment.commentDP%>" class="commentDP" alt="">
+                        </div>
+                        <div class="col-10">
+                            <strong><%=comment.userComment%></strong>
+                            <p><%=comment.content%></p>
+                    
+                        </div>
+                    
+                
+               
+          <%  }) %>
+        </div>
+
             </div>
+                </div> 
             <div class="like-comment">
                 <div class="icon-divide">
                     <div class="row">
@@ -59,13 +79,13 @@
                 </div>
                
                 <div class="comment-input">
-                    <form>
+                    <form action="/posts/<%=Id%>/comment" method="POST">
                         <div class="form-group form-check-inline">
                             <div style="margin-right: 0.5rem;">
-                                <input type="text" class="form-control comment-box" id="comment-box-area" placeholder="Comment">
+                                <input type="text" class="form-control comment-box" name="commentBoxArea" id="comment-box-area" placeholder="Comment">
                             </div>
                             
-                            <button type="button" class="btn btn-outline-dark btn-sm">Comment!</button>
+                            <button type="submit" class="btn btn-outline-dark btn-sm">Comment!</button>
                         </div>
                     </form>
                 </div>

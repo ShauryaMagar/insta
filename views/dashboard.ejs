@@ -32,7 +32,15 @@ Heading -->
       <img src="./uploads/<%= post.img %>" class="feed-photo-img" alt="">
     </div></a>
     <div class="container caption-container">
-      <i class="far fa-envelope-open"></i> <em class="caption-text">    <%= post.caption %></em> 
+      <div class="row">
+        <div class="col-1">
+            <i class="far fa-envelope-open"></i>
+        </div>
+        <div class="col-11" style="margin-top: 8px;">
+          <em > <p class="caption-text"><%= post.caption %></p></em>
+        </div>
+      </div>
+      
     </div> 
     
  

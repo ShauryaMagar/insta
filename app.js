@@ -85,6 +85,7 @@ const Post = new mongoose.model("Post", postSchema);
 const commentsSchema = new mongoose.Schema({
   postComment: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
   userComment: String,
+  commentDP: String,
   content: String,
 });
 const Comment = new mongoose.model("Comment", commentsSchema);
@@ -132,6 +133,9 @@ app.get("/upload", function(req,res){
     res.redirect("/login");
   }
 });
+
+
+
 
 
 
@@ -268,16 +272,46 @@ app.post("/login",function(req,res){
 app.get("/posts/:postId", function (req, res) {
   
   const requestedPostId = req.params.postId;
-  Post.findOne({ _id: requestedPostId }, function (err, foundPost) {
+  Post.findOne({ _id: req.params.postId}).populate("comments").exec((err, comments) => {
     res.render("individualpost", {
-      name:foundPost.dashName,
-      dp:foundPost.dashDP,
-      photo:foundPost.img,
-      caption:foundPost.caption,
+      name: comments.dashName,
+      dp: comments.dashDP,
+      photo: comments.img,
+      caption: comments.caption,
+      Id: comments._id,
+      comments: comments.comments,
     });
-  });
+  })
  
 });
+
+
+
+
+app.post("/posts/:postId/comment", function (req, res) {
+  if(req.isAuthenticated()){
+    const requestedPostId = req.params.postId;
+    const comment = new Comment({
+       userComment: req.user.name,
+       commentDP: req.user.profileimage,
+      content: req.body.commentBoxArea,
+    });
+    comment.save();
+    Post.findById(requestedPostId, function (err, foundPost){
+      if(err){
+        console.log(err);
+      }else{
+        if(foundPost){
+             foundPost.comments.push(comment);
+             foundPost.save();
+          res.redirect("/posts/"+req.params.postId);
+        }
+      }
+    })
+  }
+  
+
+})
 
 
 app.get("/logout",function(req,res){
