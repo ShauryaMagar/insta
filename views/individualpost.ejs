@@ -30,7 +30,7 @@
         </div>
         <div class="col-5 individual-post-interaction">
             <div class="individual-post-userinfo">
-                <img src="../uploads/<%=dp%>" class="feed-dp" alt=""><strong> <%=name %></strong>    
+            <a href="/user/<%= proId %>" class="dash-feed-name"><img src="../uploads/<%=dp%>" class="feed-dp" alt=""><strong> <%=name %></strong></a>    
                    
             </div>
             <hr>
@@ -46,10 +46,10 @@
                     
                         <div class="col-1">
                     
-                            <img src="../uploads/<%=comment.commentDP%>" class="commentDP" alt="">
+                            <a href="/user/<%= comment.commentUserId %>" class="dash-feed-name"><img src="../uploads/<%=comment.commentDP%>" class="commentDP" alt=""></a>
                         </div>
                         <div class="col-10">
-                            <strong><%=comment.userComment%></strong>
+                            <a href="/user/<%= comment.commentUserId %>" class="dash-feed-name"><strong><%=comment.userComment%></strong></a>
                             <p><%=comment.content%></p>
                     
                         </div>

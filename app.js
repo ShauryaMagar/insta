@@ -70,6 +70,7 @@ const postSchema = new mongoose.Schema({
   likes: Number,
   dashName:String,
   dashDP:String,
+  dashUserId: String,
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   
@@ -87,6 +88,7 @@ const commentsSchema = new mongoose.Schema({
   userComment: String,
   commentDP: String,
   content: String,
+  commentUserId:String,
 });
 const Comment = new mongoose.model("Comment", commentsSchema);
 
@@ -148,6 +150,7 @@ app.post("/upload",upload, function(req,res,next){
       author: req.user.id,
       dashName:req.user.name,
       dashDP: req.user.profileimage,
+      dashUserId:req.user.id,
     });
     post.save();
     User.findById(req.user.id, function (err, foundUser) {
@@ -247,6 +250,25 @@ app.get("/upload-profile",function(req,res){
 
 
 
+app.get("/user/:userId", function(req,res){
+   if(req.isAuthenticated()){
+    if(req.params.userId == req.user.id){
+      res.redirect("/profile");
+    }else{
+      User.findOne({ _id: req.params.userId }).populate("posts").exec((err, posts) => {
+        res.render(("user-profile"), {
+          dp: posts.profileimage,
+          bio: posts.bio,
+          name: posts.name,
+          userPosts: posts.posts,
+        });
+      });
+    }
+     
+   }
+});
+
+
 
 
 
@@ -280,6 +302,7 @@ app.get("/posts/:postId", function (req, res) {
       caption: comments.caption,
       Id: comments._id,
       comments: comments.comments,
+      proId: comments.dashUserId,
     });
   })
  
@@ -295,6 +318,7 @@ app.post("/posts/:postId/comment", function (req, res) {
        userComment: req.user.name,
        commentDP: req.user.profileimage,
       content: req.body.commentBoxArea,
+      commentUserId:req.user.id,
     });
     comment.save();
     Post.findById(requestedPostId, function (err, foundPost){

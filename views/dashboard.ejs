@@ -26,7 +26,7 @@ Heading -->
 <% posts.slice().reverse().forEach(function(post) { %>
 <div class="feed">
   
-    <div class="feed-name"><img src="./uploads/<%=post.dashDP %>" class="feed-dp" alt=""> <%= post.dashName %></div>
+    <a href="/user/<%= post.dashUserId %>" class="dash-feed-name"><div class="feed-name"><img src="./uploads/<%=post.dashDP %>" class="feed-dp" alt=""> <%= post.dashName %></div></a>
     <hr><a href="/posts/<%=post._id%>">
     <div class="feed-photo ">
       <img src="./uploads/<%= post.img %>" class="feed-photo-img" alt="">
