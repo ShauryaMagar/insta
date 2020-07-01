@@ -1,19 +1,30 @@
 <%- include('partials/header') %>
 
+
 <div class="container-fluid upload-pro">
     <div><h2>Add your Profile Photo!</h2></div><br>
     <div>
         <form action="/upload-profile" method="post" enctype="multipart/form-data">
             <input type="file" name="file" /><br><br>
             <label for="exampleFormControlTextarea1"> Add Bio! </label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" name="bioinput" rows="3"></textarea><br>
-            <button class="btn btn-outline-dark" type="submit">Upload!</button>
+            <textarea class="form-control" maxlength="100" id="exampleFormControlTextarea1" name="bioinput" rows="3"></textarea>
+            <span id="rchars">100</span> Character(s) Remaining
+            <br>
+            <button class="btn btn-outline-dark" type="submit" style="margin-top: 5px;">Upload!</button>
         </form>
+
         
 
     </div>
-</div>
 
+</div>
+<script>
+    var maxLength = 100;
+        $('#exampleFormControlTextarea1').keyup(function () {
+            var textlen = maxLength - $(this).val().length;
+            $('#rchars').text(textlen);
+        });
+</script>
 
 
 

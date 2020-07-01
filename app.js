@@ -8,6 +8,7 @@ const passport=require("passport");
 const multer=require("multer");
 const path = require("path");
 const passportLocalMongoose=require("passport-local-mongoose");
+const $ = require('jQuery');
 
 const app = express();
 
@@ -72,6 +73,7 @@ const postSchema = new mongoose.Schema({
   dashDP:String,
   dashUserId: String,
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Like' }],
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   
 });
@@ -92,7 +94,12 @@ const commentsSchema = new mongoose.Schema({
 });
 const Comment = new mongoose.model("Comment", commentsSchema);
 
-
+const likesSchema = new mongoose.Schema({
+  postLike: { type: mongoose.Schema.Types.ObjectId, ref: 'Post'},
+  likeDP: String,
+  likeUserId: String,
+  likeUserName:String,
+});
 
 
 
