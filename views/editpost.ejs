@@ -11,30 +11,26 @@
 
                 <a class="nav-item nav-link" href="/dashboard">Home</a>
                 <a class="nav-item nav-link " href="/profile">Profile</a>
-                <a class="nav-item nav-link active" href="/upload">Upload<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/upload">Upload<span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" href="/logout" role="button">Logout</a>
 
-
-
-
-            </div>
-        </div>
-    </nav>
 </div>
-<hr>
+</div>
+</nav>
+</div>
+<br>
+<br>
 <div class="container-fluid upload-group">
-    
-        <div class="form-group">
-            <form action="/upload-profile" method="post" enctype="multipart/form-data">
-                <div style="margin-top: 1rem;">
-                <input type="file" class="btn btn-outline-dark" name="file" />
-                </div>
-                <br><br>
-                <label for="exampleFormControlTextarea1"> Add Caption! </label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" name="caption" rows="3"></textarea><br>
-                <button class="btn btn-outline-dark" type="submit">Upload!</button>
-            </form>
-    
+
+    <div class="form-group">
+        <form action="/posts/<%=postId%>/editpost" method="post">
+            
+            
+            <label for="exampleFormControlTextarea1"> Update Caption! </label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" name="caption" rows="3"></textarea><br>
+            <button class="btn btn-outline-dark" type="submit">Change Caption!</button>
+        </form>
+
     </div>
 </div>
 
@@ -48,6 +44,22 @@
 
 
 
-<%- include('partials/footer') %>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%-include('partials/footer') %>

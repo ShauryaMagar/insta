@@ -180,6 +180,9 @@ app.post("/upload",upload, function(req,res,next){
 
 
 
+
+
+
 app.get("/dashboard",function(req,res){
       if(req.isAuthenticated()){
         Post.find({},function(err,posts){
@@ -299,22 +302,57 @@ app.post("/login",function(req,res){
 
 
 app.get("/posts/:postId", function (req, res) {
-  
-  const requestedPostId = req.params.postId;
-  Post.findOne({ _id: req.params.postId}).populate("comments").exec((err, comments) => {
-    res.render("individualpost", {
-      name: comments.dashName,
-      dp: comments.dashDP,
-      photo: comments.img,
-      caption: comments.caption,
-      Id: comments._id,
-      comments: comments.comments,
-      proId: comments.dashUserId,
-    });
-  })
+  const userid= req.user._id;
+  Post.findOne({ _id: req.params.postId}).populate("comments").exec(function(err, comments){
+    if(userid == comments.dashUserId){
+      res.render("individualpost", {
+        postId: comments.id,
+        name: comments.dashName,
+        dp: comments.dashDP,
+        photo: comments.img,
+        caption: comments.caption,
+        Id: comments._id,
+        comments: comments.comments,
+        proId: comments.dashUserId,
+      });
+    } else{
+      res.render("individualpostOU", {
+        name: comments.dashName,
+        dp: comments.dashDP,
+        photo: comments.img,
+        caption: comments.caption,
+        Id: comments._id,
+        comments: comments.comments,
+        proId: comments.dashUserId,
+      });
+    }
+    
+  });
  
 });
 
+app.get("/posts/:postId/editpost", function(req,res){
+    res.render("editpost", {
+      postId:req.params.postId,
+    });
+});
+
+app.post("/posts/:postId/editpost", function(req,res){
+  const caption = req.body.caption;
+  Post.findById(req.params.postId, function(err, foundPost){
+    if(err){
+      console.log(err)
+    }else{
+         if(foundPost){
+           foundPost.caption=caption;
+           foundPost.save(function(){
+             res.redirect("/posts/" + req.params.postId);
+           })
+           
+         }
+    }
+  })
+})
 
 
 
@@ -342,7 +380,20 @@ app.post("/posts/:postId/comment", function (req, res) {
   }
   
 
+});
+
+
+app.get("/posts/:postId/deletepost",function(req,res){
+   Post.findByIdAndRemove({_id:req.params.postId}, function(err){
+     if(err){
+       console.log(err);
+     }else{
+       res.redirect("/dashboard");
+     }
+   })
 })
+
+
 
 
 app.get("/logout",function(req,res){
