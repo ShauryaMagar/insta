@@ -1,23 +1,40 @@
 <%- include('partials/header') %>
 
-
-<div class="container-fluid upload-pro">
-    <div><h2>Add your Profile Photo!</h2></div><br>
-    <div>
-        <form action="/upload-profile" method="post" enctype="multipart/form-data">
-            <input type="file" name="file" /><br><br>
-            <label for="exampleFormControlTextarea1"> Add Bio! </label>
-            <textarea class="form-control" maxlength="100" id="exampleFormControlTextarea1" name="bioinput" rows="3"></textarea>
-            <span id="rchars">100</span> Character(s) Remaining
-            <br>
-            <button class="btn btn-outline-dark" type="submit" style="margin-top: 5px;">Upload!</button>
-        </form>
-
-        
-
-    </div>
-
+<div style="text-align: center;margin-top: 3rem;">
+    <h1 class="sign-heading logo"><strong>NoStoryGram</strong></h1> <br><br>
 </div>
+
+<div class="container">
+
+     <div class="row">
+         <div class="col-6" style="text-align: center;">
+            <img src="../images/reiseuhu-br86TuETY9Y-unsplash.jpg" style="height:27rem;width:20rem;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 25px;" alt="">
+         </div>
+        <div class="col-4 container-fluid upload-pro" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <div>
+            <br>   <h2>Add your Profile Photo!</h2>
+            </div>
+            <div>
+                <form action="/upload-profile" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" /><br><br>
+                    <label for="exampleFormControlTextarea1"> Add Bio! </label>
+                    <textarea class="form-control" maxlength="100" id="exampleFormControlTextarea1" name="bioinput"
+                        rows="3"></textarea><br>
+                    <span id="rchars">100</span> Character(s) Remaining
+                    <br>
+                    <button class="btn btn-outline-dark" type="submit" style="margin-top: 5px;">Upload!</button>
+                </form>
+        
+        
+        
+            </div>
+        
+        </div>
+
+     </div>
+</div>
+
+
 <script>
     var maxLength = 100;
         $('#exampleFormControlTextarea1').keyup(function () {

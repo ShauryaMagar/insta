@@ -186,6 +186,7 @@ app.post("/upload",upload, function(req,res,next){
 app.get("/dashboard",function(req,res){
       if(req.isAuthenticated()){
         Post.find({},function(err,posts){
+          console.log(posts);
           res.render("dashboard",{
               posts:posts,
           });
@@ -391,6 +392,50 @@ app.get("/posts/:postId/deletepost",function(req,res){
        res.redirect("/dashboard");
      }
    })
+});
+
+
+app.get("/update/profile-pic", function(req,res){
+  res.render("update-profile-pic");
+});
+
+
+app.post("/update/profile-pic",upload, function(req,res){
+  const profile = req.file.filename;
+  User.findById(req.user.id, function (err, foundUser) {
+    if (err) {
+      console.log(err);
+    } else {
+      if (foundUser) {
+        foundUser.profileimage = profile;
+        foundUser.save(function () {
+          res.redirect("/profile");
+        });
+      }
+    }
+  });
+});
+
+app.get("/update/bio", function(req,res){
+  res.render("update-bio")
+})
+
+
+
+app.post("/update/bio", function(req,res){
+  const bio = req.body.bio;
+  User.findById(req.user.id, function (err, foundUser) {
+    if (err) {
+      console.log(err);
+    } else {
+      if (foundUser) {
+        foundUser.bio = bio;
+        foundUser.save(function () {
+          res.redirect("/profile");
+        });
+      }
+    }
+  });
 })
 
 

@@ -22,26 +22,32 @@
     </nav>
 </div>
 <hr>
-<div class="container-fluid upload-group" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-    
-        <div class="form-group" >
-            <form action="/upload" method="post" enctype="multipart/form-data">
-                <div style="margin-top: 1rem;">
-                <input type="file" class="btn btn-outline-dark" name="file" />
-                </div>
-                <br><br>
-                <label for="exampleFormControlTextarea1"> Add Caption! </label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" name="caption" rows="3"></textarea><br>
-                <button class="btn btn-outline-dark" type="submit">Upload!</button>
-            </form>
-    
+<div class="container-fluid upload-group"
+    style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+
+    <div class="form-group">
+        
+        <form action="/update/bio" method="post">
+
+            <label for="exampleFormControlTextarea1"> Add Bio! </label>
+            <textarea class="form-control" maxlength="100" id="exampleFormControlTextarea1" name="bio" rows="3"></textarea><br>
+            <span id="rchars">100</span> Character(s) Remaining <br><br>
+            <button class="btn btn-outline-dark" type="submit">Upload!</button>
+        </form>
+
     </div>
 </div>
 
 
 
 
-
+<script>
+    var maxLength = 100;
+    $('#exampleFormControlTextarea1').keyup(function () {
+        var textlen = maxLength - $(this).val().length;
+        $('#rchars').text(textlen);
+    });
+</script>
 
 
 
@@ -49,5 +55,3 @@
 
 
 <%- include('partials/footer') %>
-
-
