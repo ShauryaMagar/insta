@@ -9,6 +9,7 @@ const multer=require("multer");
 const path = require("path");
 const passportLocalMongoose=require("passport-local-mongoose");
 const $ = require('jQuery');
+const { kStringMaxLength } = require("buffer");
 
 const app = express();
 
@@ -48,7 +49,7 @@ const userSchema = new mongoose.Schema({
   username: String,
   password: String,
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Followers'}],
+  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Follower'}],
   following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Following' }],
   profileimage: String,
   bio: String,
@@ -104,25 +105,25 @@ const likesSchema = new mongoose.Schema({
 
 const Like = new mongoose.model("Like", likesSchema);
 
+const followerSchema = new mongoose.Schema({
+  followerDP: String,
+  followerUserId: String,
+  followerUserName: String,
+  author1: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+})
 
+const Follower = new mongoose.model("Follower", followerSchema);
 
-const followersSchema = new mongoose.Schema({
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  followDP: String,
-  followUserId: String,
-  followUserName: String,
-});
-
-const Follower = new mongoose.model("Follower", followersSchema );
 
 const followingSchema = new mongoose.Schema({
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   followingDP: String,
   followingUserId: String,
   followingUserName: String,
-});
+  author2: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+})
 
 const Following = new mongoose.model("Following", followingSchema);
+
 
 passport.use(User.createStrategy());
  
@@ -140,13 +141,20 @@ app.get("/profile", function(req,res){
     const dp = req.user.profileimage;
     const bio= req.user.bio;
     const name= req.user.name;
-    User.findOne({_id:req.user.id}).populate("posts").exec((err,posts)=> {
-      res.render(("profile"), {
+    User.findOne({ _id: req.user.id }).populate("posts").populate("followers").populate("following").exec(function(err,posts) {
+      
+      
+      
+      res.render(("profile"), 
+      {
         dp: dp,
         bio: bio,
         name: name,
         userPosts: posts.posts,
-      });
+        followList: posts.followers,
+        followingList: posts.following,
+      }
+      );
     });
     
    
@@ -286,14 +294,40 @@ app.get("/user/:userId", function(req,res){
     if(req.params.userId == req.user.id){
       res.redirect("/profile");
     }else{
-      User.findOne({ _id: req.params.userId }).populate("posts").exec((err, posts) => {
-        res.render(("user-profile"), {
-          userid: posts.id,
-          dp: posts.profileimage,
-          bio: posts.bio,
-          name: posts.name,
-          userPosts: posts.posts,
-        });
+      User.findOne({ _id: req.params.userId }).populate("posts").populate("followers").populate("following").exec(function(err, posts)  {
+        var num=0;
+        console.log(posts.followers);
+        for(var i=0; i<posts.followers.length; i++){
+          if (posts.followers[i].followerUserId === req.user.id){
+            num=num+1;
+          }
+        }
+        if(num==0){
+          res.render(("user-profile"), {
+            userid: posts.id,
+            dp: posts.profileimage,
+            bio: posts.bio,
+            name: posts.name,
+            userPosts: posts.posts,
+            followStatus: "Follow",
+            followList: posts.followers,
+            followingList: posts.following,
+            link: "addFollow",
+          });
+        }else if(num==1){
+          res.render(("user-profile"), {
+            userid: posts.id,
+            dp: posts.profileimage,
+            bio: posts.bio,
+            name: posts.name,
+            userPosts: posts.posts,
+            followStatus: "Unfollow",
+            followList: posts.followers,
+            followingList: posts.following,
+            link: "deleteFollow",
+          });
+        }
+        
       });
     }
      
@@ -555,53 +589,77 @@ app.get("/posts/:postId/deleteLike", function (req, res) {
 
 
 
-app.post("/user/:userId/addfollow", function(req,res){
+app.get("/user/:userId/addfollow/", function(req,res){
   const follower = new Follower({
-    followDP: req.user.profileimage,
-    followUserName: req.user.name,
-    followUserId: req.user.id,
+    followerDP: req.user.profileimage,
+    followerUserId: req.user.id,
+    followerUserName: req.user.name,
   });
   follower.save();
-  User.findById(req.params.userId, function(err, foundUser){
+  User.findById(req.params.userId, function(err,foundUser){
     if(err){
       console.log(err);
       
     }else{
       if(foundUser){
         foundUser.followers.push(follower);
-        foundUser.save();
+        foundUser.save().then(
+          User.findById(req.params.userId, function (err, foundUser) {
+            if (err) {
+              console.log(err);
+
+            } else {
+              if (foundUser) {
+                console.log(foundUser);
+                
+                const following = new Following({
+                  followingDP: foundUser.profileimage,
+                  followingUserId: foundUser.id,
+                  followingUserName: foundUser.name,
+                });
+                following.save();
+                User.findById(req.user.id, function (err, foundUser) {
+                  if (err) {
+                    console.log(err);
+
+                  } else {
+                    if (foundUser) {
+                      foundUser.following.push(following);
+                      foundUser.save(function () {
+                        res.redirect("/user/" + req.params.userId);
+                      })
+                    }
+                  }
+                })
+              }
+            }
+          })
+        )
+        }
       }
-    }
-  });
-  User.findById(req.params.userId, function(err,foundUser1){
-    if (err){
+    });
+ 
+ 
+});
+
+app.get("/user/:userId/deleteFollow", function(req,res){
+  Follower.deleteOne({followerUserId:req.user.id}, function(err){
+    if(err){
       console.log(err);
       
     }else{
-      if(foundUser1){
-        const following = new Following({
-          followingDP: foundUser1.profileimage,
-          followingUserId: foundUser1.id,
-          followingUserName: foundUser1.name,
-        });
-        following.save();
-        User.findById(req.user.id, function(err, foundUser2){
-          if(err){
-            console.log(err);
-            
-          }else{
-            if(foundUser2){
-              foundUser2.following.push(following);
-              foundUser2.save(function(){
-                res.redirect("/user/"+req.params.userId);
-              })
-            }
-          }
-        })
-      }
+      Following.deleteOne({followingUserId:req.params.userId}, function(err){
+        if(err){
+          console.log(err);
+          
+        }else{
+          res.redirect("/user/"+req.params.userId);
+        }
+      })
     }
+  }
+  )
   })
-});
 
 
 
