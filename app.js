@@ -48,6 +48,8 @@ const userSchema = new mongoose.Schema({
   username: String,
   password: String,
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Followers'}],
+  following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Following' }],
   profileimage: String,
   bio: String,
 });
@@ -68,7 +70,6 @@ const User = new mongoose.model("User", userSchema);
 const postSchema = new mongoose.Schema({
   caption: String,
   img: String,
-  likes: Number,
   dashName:String,
   dashDP:String,
   dashUserId: String,
@@ -101,7 +102,27 @@ const likesSchema = new mongoose.Schema({
   likeUserName:String,
 });
 
+const Like = new mongoose.model("Like", likesSchema);
 
+
+
+const followersSchema = new mongoose.Schema({
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  followDP: String,
+  followUserId: String,
+  followUserName: String,
+});
+
+const Follower = new mongoose.model("Follower", followersSchema );
+
+const followingSchema = new mongoose.Schema({
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  followingDP: String,
+  followingUserId: String,
+  followingUserName: String,
+});
+
+const Following = new mongoose.model("Following", followingSchema);
 
 passport.use(User.createStrategy());
  
@@ -186,7 +207,6 @@ app.post("/upload",upload, function(req,res,next){
 app.get("/dashboard",function(req,res){
       if(req.isAuthenticated()){
         Post.find({},function(err,posts){
-          console.log(posts);
           res.render("dashboard",{
               posts:posts,
           });
@@ -268,6 +288,7 @@ app.get("/user/:userId", function(req,res){
     }else{
       User.findOne({ _id: req.params.userId }).populate("posts").exec((err, posts) => {
         res.render(("user-profile"), {
+          userid: posts.id,
           dp: posts.profileimage,
           bio: posts.bio,
           name: posts.name,
@@ -304,29 +325,86 @@ app.post("/login",function(req,res){
 
 app.get("/posts/:postId", function (req, res) {
   const userid= req.user._id;
-  Post.findOne({ _id: req.params.postId}).populate("comments").exec(function(err, comments){
-    if(userid == comments.dashUserId){
-      res.render("individualpost", {
-        postId: comments.id,
-        name: comments.dashName,
-        dp: comments.dashDP,
-        photo: comments.img,
-        caption: comments.caption,
-        Id: comments._id,
-        comments: comments.comments,
-        proId: comments.dashUserId,
-      });
-    } else{
-      res.render("individualpostOU", {
-        name: comments.dashName,
-        dp: comments.dashDP,
-        photo: comments.img,
-        caption: comments.caption,
-        Id: comments._id,
-        comments: comments.comments,
-        proId: comments.dashUserId,
-      });
+  var num=0;
+
+  Post.findOne({ _id: req.params.postId}).populate("comments").populate("likes").exec(function(err, comments){
+    const likesarray= comments.likes;
+    for(var i=0;i<likesarray.length;i++){
+         if(likesarray[i].likeUserId == userid){
+              num=num+1;
+         }
     }
+     
+    
+        if(num===1){
+          if (userid == comments.dashUserId) {
+            res.render("individualpost", {
+              postId: comments.id,
+              name: comments.dashName,
+              dp: comments.dashDP,
+              photo: comments.img,
+              caption: comments.caption,
+              Id: comments._id,
+              comments: comments.comments,
+              proId: comments.dashUserId,
+              likes: comments.likes,
+              color:"red",
+              link:"deleteLike",
+            });
+          } else {
+            res.render("individualpostOU", {
+              postId: comments.id,
+              name: comments.dashName,
+              dp: comments.dashDP,
+              photo: comments.img,
+              caption: comments.caption,
+              Id: comments._id,
+              comments: comments.comments,
+              proId: comments.dashUserId,
+              likes: comments.likes,
+              color: "red",
+              link: "deleteLike",
+            });
+          }
+
+        } else if(num==0){
+          if (userid == comments.dashUserId) {
+            res.render("individualpost", {
+              postId: comments.id,
+              name: comments.dashName,
+              dp: comments.dashDP,
+              photo: comments.img,
+              caption: comments.caption,
+              Id: comments._id,
+              comments: comments.comments,
+              proId: comments.dashUserId,
+              likes: comments.likes,
+              color: "black",
+              link: "addLike",
+            });
+          } else {
+            res.render("individualpostOU", {
+              postId: comments.id,
+              name: comments.dashName,
+              dp: comments.dashDP,
+              photo: comments.img,
+              caption: comments.caption,
+              Id: comments._id,
+              comments: comments.comments,
+              proId: comments.dashUserId,
+              likes:comments.likes,
+              color: "black",
+              link: "addLike",
+
+            });
+          }
+
+        }
+        
+    
+    
+    
+    
     
   });
  
@@ -410,7 +488,7 @@ app.post("/update/profile-pic",upload, function(req,res){
         foundUser.profileimage = profile;
         foundUser.save(function () {
           res.redirect("/profile");
-        });
+      });
       }
     }
   });
@@ -437,6 +515,93 @@ app.post("/update/bio", function(req,res){
     }
   });
 })
+
+
+
+app.get("/posts/:postId/addLike", function(req,res){
+  const like= new Like({
+      likeDP: req.user.profileimage,
+      likeUserId: req.user.id,
+      likeUserName:req.user.name,
+  });
+  like.save(); 
+    Post.findById(req.params.postId, function (err, foundPost) {
+      if (err) {
+        console.log(err);
+      } else {
+        if (foundPost) {
+          foundPost.likes.push(like);
+          foundPost.save();
+          res.redirect("/posts/" + req.params.postId);
+        }
+      }
+    })
+   })
+
+app.get("/posts/:postId/deleteLike", function (req, res) {
+  Like.deleteOne({likeUserId:req.user.id},function(err){
+    if(err){
+      console.log(err);
+      
+    }else{
+      res.redirect("/posts/" + req.params.postId);
+    }
+  })
+  
+  
+});
+
+
+
+
+
+app.post("/user/:userId/addfollow", function(req,res){
+  const follower = new Follower({
+    followDP: req.user.profileimage,
+    followUserName: req.user.name,
+    followUserId: req.user.id,
+  });
+  follower.save();
+  User.findById(req.params.userId, function(err, foundUser){
+    if(err){
+      console.log(err);
+      
+    }else{
+      if(foundUser){
+        foundUser.followers.push(follower);
+        foundUser.save();
+      }
+    }
+  });
+  User.findById(req.params.userId, function(err,foundUser1){
+    if (err){
+      console.log(err);
+      
+    }else{
+      if(foundUser1){
+        const following = new Following({
+          followingDP: foundUser1.profileimage,
+          followingUserId: foundUser1.id,
+          followingUserName: foundUser1.name,
+        });
+        following.save();
+        User.findById(req.user.id, function(err, foundUser2){
+          if(err){
+            console.log(err);
+            
+          }else{
+            if(foundUser2){
+              foundUser2.following.push(following);
+              foundUser2.save(function(){
+                res.redirect("/user/"+req.params.userId);
+              })
+            }
+          }
+        })
+      }
+    }
+  })
+});
 
 
 

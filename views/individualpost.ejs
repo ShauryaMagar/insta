@@ -73,14 +73,16 @@
                 <div class="icon-divide">
                     <div class="row">
                         <div class="col-2">
-                            <i class="far like-button fa-heart fa-2x"></i>
+                           <a href="/posts/<%=postId%>/<%=link%>"><i class="far like-button fa-heart fa-2x" style="color: <%=color%>;"></i></a> 
                         </div>
                           <div class="col-2">
                         <a href="#comment-box-area"><i class="far fa-comment fa-2x"></i></a>
                         </div>
+                       
                     
                         
                     </div>
+                    <%=likes.length%> likes    <%=comments.length%> comments
 
                     
 

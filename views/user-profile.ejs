@@ -33,7 +33,7 @@
             </strong>
             <h5 class="pro-bio"><%= bio %></h5>
             <div><br>
-                <form action="/follow" method="post">
+                <form action="/user/<%=userid%>/addfollow" method="post">
                     <p><button class="btn btn-outline-dark" type="submit" style="margin-left: 25px;"> Follow </button></p>
                 </form>
             </div>
