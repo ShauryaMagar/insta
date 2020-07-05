@@ -296,7 +296,6 @@ app.get("/user/:userId", function(req,res){
     }else{
       User.findOne({ _id: req.params.userId }).populate("posts").populate("followers").populate("following").exec(function(err, posts)  {
         var num=0;
-        console.log(posts.followers);
         for(var i=0; i<posts.followers.length; i++){
           if (posts.followers[i].followerUserId === req.user.id){
             num=num+1;
@@ -381,7 +380,7 @@ app.get("/posts/:postId", function (req, res) {
               Id: comments._id,
               comments: comments.comments,
               proId: comments.dashUserId,
-              likes: comments.likes,
+              likesList: comments.likes,
               color:"red",
               link:"deleteLike",
             });
@@ -395,7 +394,7 @@ app.get("/posts/:postId", function (req, res) {
               Id: comments._id,
               comments: comments.comments,
               proId: comments.dashUserId,
-              likes: comments.likes,
+              likesList: comments.likes,
               color: "red",
               link: "deleteLike",
             });
@@ -412,7 +411,7 @@ app.get("/posts/:postId", function (req, res) {
               Id: comments._id,
               comments: comments.comments,
               proId: comments.dashUserId,
-              likes: comments.likes,
+              likesList: comments.likes,
               color: "black",
               link: "addLike",
             });
@@ -426,7 +425,7 @@ app.get("/posts/:postId", function (req, res) {
               Id: comments._id,
               comments: comments.comments,
               proId: comments.dashUserId,
-              likes:comments.likes,
+              likesList:comments.likes,
               color: "black",
               link: "addLike",
 
@@ -501,7 +500,7 @@ app.get("/posts/:postId/deletepost",function(req,res){
      if(err){
        console.log(err);
      }else{
-       res.redirect("/dashboard");
+       res.redirect("/profile");
      }
    })
 });
@@ -610,7 +609,6 @@ app.get("/user/:userId/addfollow/", function(req,res){
 
             } else {
               if (foundUser) {
-                console.log(foundUser);
                 
                 const following = new Following({
                   followingDP: foundUser.profileimage,

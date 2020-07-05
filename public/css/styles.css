@@ -311,3 +311,20 @@ hr{
 #rchars{
   line-height: 10px;
 }
+
+
+
+.follower-button{
+  background-color: inherit;
+  border: none;
+  display: inline;
+}
+
+
+.feed-dp-modal{
+  border-radius: 50%;
+  height: 2.5rem;
+  width: 2.5rem;
+  
+  border-color: black;
+}

@@ -38,7 +38,53 @@
             
                 </div>
             </div>
-            <p class="pro-name"><%=followList.length%> Followers &nbsp; &nbsp; <%= followingList.length %> Following</p>
+            
+            <button type="button" class="btn btn-sm follower-button" style="margin-left: 1.25rem;margin-top: 2rem;" data-toggle="modal" data-target=".bd-example-modal-sm">
+                <strong><%=followList.length%> Followers</strong>
+            </button>
+            
+            <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content" style="background-color: #fecea8;">
+                  <% followList.slice().reverse().forEach(function(follower){ %>
+                      
+                    <a href="/user/<%= follower.followerUserId %>" class="dash-feed-name"><div class="feed-name" style="padding: 0.3rem;"><img src="../uploads/<%=follower.followerDP%>" class="feed-dp-modal"
+                            alt=""> <%=follower.followerUserName%></div> </a> 
+                        
+                        
+                    
+                <%  })  %>
+                </div>
+                    
+                </div>
+            </div>
+            <button type="button" class="btn btn-sm follower-button" style="margin-left: 1.25rem;margin-top: 2rem;"
+                data-toggle="modal" data-target=".bd-example-modal-sm1">
+                <strong><%=followingList.length%> Following</strong>
+            </button>
+            <div class="modal fade bd-example-modal-sm1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content" style="background-color: #fecea8;">
+                    <% followingList.slice().reverse().forEach(function(following){ %>
+                    
+                        <a href="/user/<%= following.followingUserId %>" class="dash-feed-name">
+                            <div class="feed-name" style="padding: 0.3rem;"><img src="../uploads/<%=following.followingDP%>"
+                                    class="feed-dp-modal" alt=""> <%=following.followingUserName%></div>
+                        </a>
+            
+            
+                    
+                    <%  })  %>
+                </div>
+            
+                </div>
+            </div>
+
+            
+            
+            
         </div>
  
     </div>

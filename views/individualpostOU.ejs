@@ -43,7 +43,7 @@
             <div class="comment-section">
                 <div class="container">
                     <div class="row">
-                        <% comments.forEach(function(comment){ %>
+                        <% comments.slice().reverse().forEach(function(comment){ %>
 
 
                         <div class="col-1">
@@ -77,11 +77,33 @@
 
 
                     </div>
-                    <%=likes.length%> likes <%=comments.length%> comments
 
 
 
                 </div>
+                <button type="button" class="btn btn-sm follower-button" data-toggle="modal" data-target=".bd-example-modal-sm">
+                    <strong style="font-size: small;"><%=likesList.length%> Likes</strong>
+                </button>
+                
+                <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content" style="background-color: #fecea8;">
+                            <% likesList.slice().reverse().forEach(function(like){ %>
+                
+                            <a href="/user/<%= like.likeUserId %>" class="dash-feed-name">
+                                <div class="feed-name" style="padding: 0.3rem;"><img src="../uploads/<%=like.likeDP%>"
+                                        class="feed-dp-modal" alt=""> <%=like.likeUserName%></div>
+                            </a>
+                
+                
+                
+                            <%  })  %>
+                        </div>
+                
+                    </div>
+                </div>
+                &nbsp; <strong style="font-size: small;"><%=comments.length%> Comments</strong>
 
                 <div class="comment-input">
                     <form action="/posts/<%=Id%>/comment" method="POST">
