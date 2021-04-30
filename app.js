@@ -133,7 +133,9 @@ passport.deserializeUser(User.deserializeUser());
 
 
 app.get("/login", function(req,res){
-  res.render("signup");
+  res.render("signup",{
+    al:"",
+  });
 });
 
 app.get("/profile", function(req,res){
@@ -338,20 +340,28 @@ app.get("/user/:userId", function(req,res){
 
 
 app.post("/login",function(req,res){
-  const user = new User({
-    username: req.body.username,
-  password: req.body.password
-  });
-  req.login(user, function(err){
-    if(err){
-      console.log(err);
-
-    } else{
-      passport.authenticate("local")(req, res, function () {
-        res.redirect("/dashboard");
-      });
-    }
-  })
+  if(req.body.password==='abcd'){
+    res.render('signup',{
+      al:"Wrong credentials",
+    })
+  }else{
+    const user = new User({
+      username: req.body.username,
+      password: req.body.password
+    });
+    req.login(user, function (err) {
+      if (err) {
+        console.log(err);
+        res.redirect("/login");
+        alert("Invalid Credentials")
+      } else {
+        passport.authenticate("local")(req, res, function () {
+          res.redirect("/dashboard");
+        });
+      }
+    })
+  }
+  
 });
 
 

@@ -1,7 +1,7 @@
 <%- include('partials/header') %>
 <div class="container-fluid dash-head">
     <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #fecea8;">
-        <a class="navbar-brand logo" href="/dashboard">NoStoryGram</a>
+        <a class="navbar-brand logo" href="/dashboard">Instagram</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -45,18 +45,19 @@
             <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-sm">
-                    <% followList.slice().reverse().forEach(function(follower){ %>
                     <div class="modal-content" style="background-color: #fecea8;">
+                    <% followList.slice().reverse().forEach(function(follower){ %>
+                   
                         <a href="/user/<%= follower.followerUserId %>" class="dash-feed-name">
                             <div class="feed-name" style="padding: 0.3rem;"><img src="../uploads/<%=follower.followerDP%>"
                                     class="feed-dp-modal" alt=""> <%=follower.followerUserName%></div>
                         </a>
             
             
-                    </div>
+                   
                     <%  })  %>
             
-            
+                </div>
                 </div>
             </div>
             <button type="button" class="btn btn-sm follower-button" style="margin-left: 1.25rem;"
